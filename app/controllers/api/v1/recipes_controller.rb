@@ -5,6 +5,7 @@ class Api::V1::RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
+    @recipe.ingredients.build
 
     if @recipe.save
       render :show
@@ -27,7 +28,12 @@ class Api::V1::RecipesController < ApplicationController
         :amount,
         :description,
         :favorite,
-        :user_id
+        :user_id,
+        ingredients:[
+          :id,
+          :name,
+          :recipe_id
+        ]
       )
     end
 end
