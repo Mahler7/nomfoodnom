@@ -3,7 +3,12 @@ class RecipesController < ApplicationController
 
   end
 
+  def new
+
+  end
+
   def show
     @recipe = Recipe.find_by(id: params[:id])
   end
+
 end

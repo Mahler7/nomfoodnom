@@ -6,7 +6,7 @@ class Api::V1::RecipesController < ApplicationController
   def create
     @recipe = Recipe.new(recipe_params)
     
-    ingredients = params[:ingredients]
+    ingredients = params[:ingredients] 
     ingredients.each do |ingredient|
       @recipe.ingredients.new(
         name: ingredient[:name]
