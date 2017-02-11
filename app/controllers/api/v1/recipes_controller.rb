@@ -5,11 +5,6 @@ class Api::V1::RecipesController < ApplicationController
 
   def create
     @recipe = Recipe.new(recipe_params)
-
-    p "---------------------"
-    p params[:ingredients]
-    p "---------------------"
-    
     
     ingredients = params[:ingredients] 
     ingredients.each do |ingredient|
@@ -17,10 +12,9 @@ class Api::V1::RecipesController < ApplicationController
         name: ingredient[:name]
       )
     end
-    
 
     if @recipe.save 
-      redirect_to "/recipes/#{@recipe_id}"
+      render :show
     else
       render json: { errors: @recipe.errors.full_messages }, status: 422
     end

@@ -50,7 +50,7 @@ $(document).on('ready', function() {
       newRecipe: function(){
         this.$http.post('/api/v1/recipes.json', this.recipe).then(function(response){
             this.recipes.push(this.recipe);
-
+            window.location.href = "/recipes/" + this.recipe.id
         }).catch(function(response){
           this.errors = response.data.errors;
         });
