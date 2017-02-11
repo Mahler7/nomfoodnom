@@ -10,11 +10,10 @@ $(document).on('ready', function() {
         amount: '',
         description: '',
         favorite: false,
+        ingredients: [
+          {name: ''},
+        ]
       },
-      ingredients: [
-        {name: ''},
-        {recipe_id: ''}
-      ],
       recipes: [],
       errors: {},
       cookingtimes: [
@@ -50,17 +49,19 @@ $(document).on('ready', function() {
     methods: {
       newRecipe: function(){
         this.$http.post('/api/v1/recipes.json', this.recipe).then(function(response){
-          this.recipes.push(this.recipe);
+            this.recipes.push(this.recipe);
+
         }).catch(function(response){
           this.errors = response.data.errors;
         });
+        console.log("this.recipe " + this.recipe);
       },
       newIngredient: function(){
-        this.ingredients.push({name:'', recipe_id: ''})
+        this.recipe.ingredients.push({name:''});
       },
       removeIngredient: function(index){
         console.log("index " + index);
-        this.ingredients.splice(index, 1);
+        this.recipe.ingredients.splice(index, 1);
       }
     }
   })

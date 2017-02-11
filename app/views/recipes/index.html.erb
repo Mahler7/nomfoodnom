@@ -34,9 +34,9 @@
       <label class="form-label">Favorite</label>
       <input type="checkbox" v-model="recipe.favorite">
     </div>
-    
+
     <button class="btn btn-default" type="button" @click="newIngredient">Add Ingredient</button>
-    <div class="form-group" v-for="(ingredient, index) in ingredients">
+    <div class="form-group" v-for="(ingredient, index) in recipe.ingredients">
       <label class="form-label">Ingredient</label>
       <input type="text" v-model="ingredient.name">
       <a @click="removeIngredient(index)">Remove Ingredient</a>
