@@ -14,10 +14,6 @@ $(document).on('ready', function() {
           {name: ''},
         ]
       },
-      // ingredients: [
-      //   {name: ''},
-      //   {recipe_id: ''}
-      // ],
       recipes: [],
       errors: {},
       cookingtimes: [
@@ -61,7 +57,7 @@ $(document).on('ready', function() {
         console.log("this.recipe " + this.recipe);
       },
       newIngredient: function(){
-        this.recipe.ingredients.push({name:'', recipe_id: ''});
+        this.recipe.ingredients.push({name:''});
       },
       removeIngredient: function(index){
         console.log("index " + index);
