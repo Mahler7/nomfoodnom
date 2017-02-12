@@ -4,6 +4,7 @@ $(document).on('ready', function() {
     data: {
       message: "Hello World!",
       recipe: {
+        id: '',
         name: '',
         chef: '',
         cooktime: '',
@@ -48,13 +49,14 @@ $(document).on('ready', function() {
     },
     methods: {
       newRecipe: function(){
-        this.$http.post('/api/v1/recipes.json', this.recipe).then(function(response){
-            this.recipes.push(this.recipe);
-            window.location.href = "/recipes/" + this.recipe.id
+        var that = this;
+        that.$http.post('/api/v1/recipes.json', that.recipe).then(function(response){
+            console.log("response.data " + JSON.stringify(response.data.id));
+            that.recipes.push(that.recipe);
+            window.location.href = "/recipes/" + JSON.stringify(response.data.id)
         }).catch(function(response){
-          this.errors = response.data.errors;
+          that.errors = response.data.errors;
         });
-        console.log("this.recipe " + this.recipe);
       },
       newIngredient: function(){
         this.recipe.ingredients.push({name:''});
@@ -62,7 +64,16 @@ $(document).on('ready', function() {
       removeIngredient: function(index){
         console.log("index " + index);
         this.recipe.ingredients.splice(index, 1);
-      }
-    }
+      } 
+    },
+    // mounted: function(){
+    //   that = this;
+    //   console.log("that.recipe.id " + that.recipe.id);
+    //   this.$http.get('/api/v1/recipes/' + that.recipe.id + '.json').then(function(response){
+    //       that.recipe = response;
+    //       console.log("response " + response);
+    //       console.log("that.recipe " + that.recipe);
+    //   })
+    // }
   })
 })
