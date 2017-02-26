@@ -3,6 +3,7 @@ $(document).on('ready', function() {
     el: '#app',
     data: {
       message: "Hello World!",
+      displayRecipeIndex: false,
       displayNewRecipe: false,
       recipe: {
         name: '',
@@ -48,12 +49,35 @@ $(document).on('ready', function() {
       ]
     },
     methods: {
+      setupRecipeIndex: function(){
+        var self = this;
+        var backButton = document.getElementById("recipe-index-button");
+
+        if (self.recipes.length === 0){
+          self.$http.get('/api/v1/recipes.json').then(function(response){ 
+            for (x in response.data){
+              self.recipes.push(response.data[x]);
+            }
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "Back";
+          })
+        } 
+        else if (self.recipes.length > 0){
+          if (!this.displayRecipeIndex){
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "Back";
+          }
+          else {
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "View Cookbook";
+          }
+        }
+      },
       toggleNewRecipe: function(){
         this.displayNewRecipe = !this.displayNewRecipe;
         var backButton = document.getElementById("new-recipe-button");
         if(this.displayNewRecipe){
-          backButton.innerHTML = "Back";
-          
+          backButton.innerHTML = "Back"; 
         }
         else {
           backButton.innerHTML = "Add New Recipe";
@@ -64,7 +88,7 @@ $(document).on('ready', function() {
         this.recipe.name = '';
         this.recipe.chef = '';
         this.recipe.cooktime = '';
-        this.recipe.amount = '',
+        this.recipe.amount = '';
         this.recipe.description = '';
         this.recipe.favorite = false;
         // this.recipe.ingredients = [];
@@ -96,14 +120,5 @@ $(document).on('ready', function() {
         this.recipe.ingredients.splice(index, 1);
       } 
     },
-    // mounted: function(){
-    //   that = this;
-    //   console.log("that.recipe.id " + that.recipe.id);
-    //   this.$http.get('/api/v1/recipes/' + that.recipe.id + '.json').then(function(response){
-    //       that.recipe = response;
-    //       console.log("response " + response);
-    //       console.log("that.recipe " + that.recipe);
-    //   })
-    // }
   })
 })
