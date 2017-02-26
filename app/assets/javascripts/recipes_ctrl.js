@@ -51,27 +51,26 @@ $(document).on('ready', function() {
     methods: {
       setupRecipeIndex: function(){
         var self = this;
-        
-        self.$http.get('/api/v1/recipes.json').then(function(response){
-          // console.log("response.data[0]['name'] " + response.data[0]["name"]);
-          for (x in response.data){
-            self.recipes.push(response.data[x]);
-          }
-
-          console.log("self.recipes " + self.recipes);
-          console.log("self.recipes[0]['name']" + self.recipes[0]['name']);
-
-          this.displayRecipeIndex = !this.displayRecipeIndex;
-        })
-      },
-      toggleRecipeIndex: function(){
-        this.displayRecipeIndex = !this.displayRecipeIndex;
         var backButton = document.getElementById("recipe-index-button");
-        if(this.displayRecipeIndex){
-          backButton.innerHTML = "Back"; 
-        }
-        else {
-          backButton.innerHTML = "View Cookbook";
+
+        if (self.recipes.length === 0){
+          self.$http.get('/api/v1/recipes.json').then(function(response){ 
+            for (x in response.data){
+              self.recipes.push(response.data[x]);
+            }
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "Back";
+          })
+        } 
+        else if (self.recipes.length > 0){
+          if (!this.displayRecipeIndex){
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "Back";
+          }
+          else {
+            this.displayRecipeIndex = !this.displayRecipeIndex;
+            backButton.innerHTML = "View Cookbook";
+          }
         }
       },
       toggleNewRecipe: function(){
@@ -121,14 +120,5 @@ $(document).on('ready', function() {
         this.recipe.ingredients.splice(index, 1);
       } 
     },
-    // mounted: function(){
-    //   that = this;
-    //   console.log("that.recipe.id " + that.recipe.id);
-    //   this.$http.get('/api/v1/recipes/' + that.recipe.id + '.json').then(function(response){
-    //       that.recipe = response;
-    //       console.log("response " + response);
-    //       console.log("that.recipe " + that.recipe);
-    //   })
-    // }
   })
 })
