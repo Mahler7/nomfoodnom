@@ -1,7 +1,22 @@
-<h1>Index</h1>
 <div id="app">
   {{ message }}
+  <button class="btn btn-default" id="recipe-index-button"@click="setupRecipeIndex">View Cookbook</button>
   <button class="btn btn-default" id="new-recipe-button" @click="toggleNewRecipe">Add New Recipe</button>
+
+  <div id="recipe-index-container" v-if="displayRecipeIndex">
+    <h1>Recipe Index</h1>
+    <table class="table table-bordered">
+      <tr>
+        <th>Name</th>
+        <th>Chef</th>
+      </tr>
+      <tr v-for="recipe in recipes">
+        <td>{{ recipe.name }}</td>
+        <td>{{ recipe.chef }}</td>
+      </tr>
+    </table>
+  </div>
+
   <div id="new-recipe-form-container" v-if="displayNewRecipe">
     <form>
       <div class="form-group">

@@ -3,6 +3,7 @@ $(document).on('ready', function() {
     el: '#app',
     data: {
       message: "Hello World!",
+      displayRecipeIndex: false,
       displayNewRecipe: false,
       recipe: {
         name: '',
@@ -48,12 +49,36 @@ $(document).on('ready', function() {
       ]
     },
     methods: {
+      setupRecipeIndex: function(){
+        var self = this;
+        
+        self.$http.get('/api/v1/recipes.json').then(function(response){
+          // console.log("response.data[0]['name'] " + response.data[0]["name"]);
+          for (x in response.data){
+            self.recipes.push(response.data[x]);
+          }
+
+          console.log("self.recipes " + self.recipes);
+          console.log("self.recipes[0]['name']" + self.recipes[0]['name']);
+
+          this.displayRecipeIndex = !this.displayRecipeIndex;
+        })
+      },
+      toggleRecipeIndex: function(){
+        this.displayRecipeIndex = !this.displayRecipeIndex;
+        var backButton = document.getElementById("recipe-index-button");
+        if(this.displayRecipeIndex){
+          backButton.innerHTML = "Back"; 
+        }
+        else {
+          backButton.innerHTML = "View Cookbook";
+        }
+      },
       toggleNewRecipe: function(){
         this.displayNewRecipe = !this.displayNewRecipe;
         var backButton = document.getElementById("new-recipe-button");
         if(this.displayNewRecipe){
-          backButton.innerHTML = "Back";
-          
+          backButton.innerHTML = "Back"; 
         }
         else {
           backButton.innerHTML = "Add New Recipe";
@@ -64,7 +89,7 @@ $(document).on('ready', function() {
         this.recipe.name = '';
         this.recipe.chef = '';
         this.recipe.cooktime = '';
-        this.recipe.amount = '',
+        this.recipe.amount = '';
         this.recipe.description = '';
         this.recipe.favorite = false;
         // this.recipe.ingredients = [];
