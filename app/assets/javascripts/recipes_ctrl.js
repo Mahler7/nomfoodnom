@@ -1,8 +1,9 @@
 $(document).on('ready', function() {
-  new Vue({
+  var Recipes = new Vue({
     el: '#app',
     data: {
       message: "Hello World!",
+      displayNewRecipe: false,
       recipe: {
         name: '',
         chef: '',
@@ -47,14 +48,45 @@ $(document).on('ready', function() {
       ]
     },
     methods: {
+      toggleNewRecipe: function(){
+        this.displayNewRecipe = !this.displayNewRecipe;
+        var backButton = document.getElementById("new-recipe-button");
+        if(this.displayNewRecipe){
+          backButton.innerHTML = "Back";
+          
+        }
+        else {
+          backButton.innerHTML = "Add New Recipe";
+          this.resetNewRecipe();
+        }
+      },
+      resetNewRecipe: function(){
+        this.recipe.name = '';
+        this.recipe.chef = '';
+        this.recipe.cooktime = '';
+        this.recipe.amount = '',
+        this.recipe.description = '';
+        this.recipe.favorite = false;
+        // this.recipe.ingredients = [];
+        for (var i = this.recipe.ingredients.length - 1; i >= 0; i--){ // <-- change direction
+          for (var name in this.recipe.ingredients[i]){
+            if (this.recipe.ingredients[i].hasOwnProperty(name)){
+              this.removeIngredient(i);
+              break; // <------ add this
+            }
+          }
+        }
+      },
       newRecipe: function(){
-        this.$http.post('/api/v1/recipes.json', this.recipe).then(function(response){
-            this.recipes.push(this.recipe);
-            window.location.href = "/recipes/" + this.recipe.id
+        var self = this;
+        self.$http.post('/api/v1/recipes.json', self.recipe).then(function(response){
+            console.log("response.data " + JSON.stringify(response.data));
+            self.recipes.push(JSON.stringify(response.data));
+            // window.location.href = "/recipes/" + JSON.stringify(response.data.id)
+            self.displayNewRecipe = false;
         }).catch(function(response){
-          this.errors = response.data.errors;
+          that.errors = response.data.errors;
         });
-        console.log("this.recipe " + this.recipe);
       },
       newIngredient: function(){
         this.recipe.ingredients.push({name:''});
@@ -62,7 +94,16 @@ $(document).on('ready', function() {
       removeIngredient: function(index){
         console.log("index " + index);
         this.recipe.ingredients.splice(index, 1);
-      }
-    }
+      } 
+    },
+    // mounted: function(){
+    //   that = this;
+    //   console.log("that.recipe.id " + that.recipe.id);
+    //   this.$http.get('/api/v1/recipes/' + that.recipe.id + '.json').then(function(response){
+    //       that.recipe = response;
+    //       console.log("response " + response);
+    //       console.log("that.recipe " + that.recipe);
+    //   })
+    // }
   })
 })
