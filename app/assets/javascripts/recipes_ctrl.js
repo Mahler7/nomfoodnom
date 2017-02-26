@@ -1,10 +1,10 @@
 $(document).on('ready', function() {
-  new Vue({
+  var Recipes = new Vue({
     el: '#app',
     data: {
       message: "Hello World!",
+      displayNewRecipe: false,
       recipe: {
-        id: '',
         name: '',
         chef: '',
         cooktime: '',
@@ -48,12 +48,42 @@ $(document).on('ready', function() {
       ]
     },
     methods: {
+      toggleNewRecipe: function(){
+        this.displayNewRecipe = !this.displayNewRecipe;
+        var backButton = document.getElementById("new-recipe-button");
+        if(this.displayNewRecipe){
+          backButton.innerHTML = "Back";
+          
+        }
+        else {
+          backButton.innerHTML = "Add New Recipe";
+          this.resetNewRecipe();
+        }
+      },
+      resetNewRecipe: function(){
+        this.recipe.name = '';
+        this.recipe.chef = '';
+        this.recipe.cooktime = '';
+        this.recipe.amount = '',
+        this.recipe.description = '';
+        this.recipe.favorite = false;
+        // this.recipe.ingredients = [];
+        for (var i = this.recipe.ingredients.length - 1; i >= 0; i--){ // <-- change direction
+          for (var name in this.recipe.ingredients[i]){
+            if (this.recipe.ingredients[i].hasOwnProperty(name)){
+              this.removeIngredient(i);
+              break; // <------ add this
+            }
+          }
+        }
+      },
       newRecipe: function(){
-        var that = this;
-        that.$http.post('/api/v1/recipes.json', that.recipe).then(function(response){
-            console.log("response.data " + JSON.stringify(response.data.id));
-            that.recipes.push(that.recipe);
-            window.location.href = "/recipes/" + JSON.stringify(response.data.id)
+        var self = this;
+        self.$http.post('/api/v1/recipes.json', self.recipe).then(function(response){
+            console.log("response.data " + JSON.stringify(response.data));
+            self.recipes.push(JSON.stringify(response.data));
+            // window.location.href = "/recipes/" + JSON.stringify(response.data.id)
+            self.displayNewRecipe = false;
         }).catch(function(response){
           that.errors = response.data.errors;
         });

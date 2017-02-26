@@ -1,51 +1,54 @@
 <h1>Index</h1>
 <div id="app">
   {{ message }}
-  <form>
-    <div class="form-group">
-      <label class="form-label">Name</label>
-      <input class="form-control" type="text" placeholder="Recipe's Name" v-model="recipe.name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Chef</label>
-      <input class="form-control" type="text" placeholder="Chef's Name" v-model="recipe.chef">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Cooktime</label>
-      <select class="form-control" type="text" v-model="recipe.cooktime">
-        <option v-for="cookingtime in cookingtimes" :value="cookingtime.value">
-          {{ cookingtime.cook }}
-        </option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Serves</label>
-      <select class="form-control" type="text" v-model="recipe.amount">
-        <option v-for="serving in servings" :value="serving.value">
-          {{ serving.serves }}
-        </option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Description</label>
-      <textarea class="form-control" rows="5" placeholder="Recipe Description" v-model="recipe.description"></textarea>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Favorite</label>
-      <input type="checkbox" v-model="recipe.favorite">
-    </div>
+  <button class="btn btn-default" id="new-recipe-button" @click="toggleNewRecipe">Add New Recipe</button>
+  <div id="new-recipe-form-container" v-if="displayNewRecipe">
+    <form>
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input class="form-control" type="text" placeholder="Recipe's Name" v-model="recipe.name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Chef</label>
+        <input class="form-control" type="text" placeholder="Chef's Name" v-model="recipe.chef">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cooktime</label>
+        <select class="form-control" type="text" v-model="recipe.cooktime">
+          <option v-for="cookingtime in cookingtimes" :value="cookingtime.value">
+            {{ cookingtime.cook }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Serves</label>
+        <select class="form-control" type="text" v-model="recipe.amount">
+          <option v-for="serving in servings" :value="serving.value">
+            {{ serving.serves }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" rows="5" placeholder="Recipe Description" v-model="recipe.description"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Favorite</label>
+        <input type="checkbox" v-model="recipe.favorite">
+      </div>
 
-    <button class="btn btn-default" type="button" @click="newIngredient">Add Ingredient</button>
-    <div class="form-group" v-for="(ingredient, index) in recipe.ingredients">
-      <label class="form-label">Ingredient</label>
-      <input type="text" v-model="ingredient.name">
-      <a @click="removeIngredient(index)">Remove Ingredient</a>
-      <p>Ingredient: {{ ingredient }}</p>
-      <p>Index: {{ index }}</p>
-    </div>
+      <button class="btn btn-default" type="button" @click="newIngredient">Add Ingredient</button>
+      <div class="form-group" v-for="(ingredient, index) in recipe.ingredients">
+        <label class="form-label">Ingredient</label>
+        <input type="text" v-model="ingredient.name">
+        <a @click="removeIngredient(index)">Remove Ingredient</a>
+        <p>Ingredient: {{ ingredient }}</p>
+        <p>Index: {{ index }}</p>
+      </div>
 
-    <div id="recipe-index-submit-button-container">
-      <button type="submit" class="btn btn-default" @click="newRecipe">Submit</button>
-    </div>
-  </form>
+      <div id="recipe-index-submit-button-container">
+        <button type="submit" class="btn btn-default" @click="newRecipe">Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
