@@ -5,14 +5,16 @@
 
   <div id="recipe-index-container" v-if="displayRecipeIndex">
     <h1>Recipe Index</h1>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
       <tr>
         <th>Name</th>
         <th>Chef</th>
+        <th>Recipe Details</th>
       </tr>
       <tr v-for="recipe in recipes">
         <td>{{ recipe.name }}</td>
         <td>{{ recipe.chef }}</td>
+        <td><a href="#" @click="setupRecipeShow(recipe.id)">View Recipe</a></td>
       </tr>
     </table>
   </div>
@@ -66,4 +68,22 @@
       </div>
     </form>
   </div>
-</div>
+
+  <div id="recipe-show-container" v-if="displayRecipeShow">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ recipe.name }}</h3>
+      </div>
+      <div class="panel-body">
+        <p>{{ recipe.chef }}</p>
+        <p>{{ recipe.cooktime }}</p>
+        <p>{{ recipe.amount }}</p>
+        <p>{{ recipe.favorite }}</p>
+        <p>{{ recipe.description }}</p>
+        <ul v-for="ingredient in recipe.ingredients">
+          <li>{{ ingredient.ingredient_name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> <!-- closes app --> 
