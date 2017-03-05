@@ -5,6 +5,7 @@ $(document).on('ready', function() {
       message: "Hello World!",
       displayRecipeIndex: false,
       displayNewRecipe: false,
+      displayRecipeShow: false,
       recipe: {
         name: '',
         chef: '',
@@ -118,6 +119,24 @@ $(document).on('ready', function() {
       removeIngredient: function(index){
         console.log("index " + index);
         this.recipe.ingredients.splice(index, 1);
+      },
+      setupRecipeShow: function(recipeId){
+        self = this;
+
+        this.displayRecipeIndex = !this.displayRecipeIndex;
+        this.displayRecipeShow = !this.displayRecipeShow;
+
+        self.$http.get('/api/v1/recipes/' + recipeId + '.json').then(function(response){ 
+            self.recipe.name = response.data.name;
+            self.recipe.chef = response.data.chef;
+            self.recipe.cooktime = response.data.cooktime;
+            self.recipe.amount = response.data.amount;
+            self.recipe.description = response.data.description;
+            self.recipe.favorite = response.data.favorite;
+            self.recipe.ingredients = response.data.ingredients;
+            // this.displayRecipeIndex = !this.displayRecipeIndex;
+            // backButton.innerHTML = "Back";
+        })
       } 
     },
   })
