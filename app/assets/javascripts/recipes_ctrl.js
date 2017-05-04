@@ -71,15 +71,8 @@ $(document).on('ready', function() {
         }
       },
       toggleNewRecipe: function(){
-        this.displayNewRecipe = !this.displayNewRecipe;
-        var backButton = document.getElementById("new-recipe-button");
-        if(this.displayNewRecipe){
-          backButton.innerHTML = "Back"; 
-        }
-        else {
-          backButton.innerHTML = "Add New Recipe";
-          this.resetNewRecipe();
-        }
+        this.displayNewRecipe = true;
+        this.resetNewRecipe();
       },
       resetNewRecipe: function(){
         this.recipe.name = '';
@@ -130,8 +123,6 @@ $(document).on('ready', function() {
             self.recipe.description = response.data.description;
             self.recipe.favorite = response.data.favorite;
             self.recipe.ingredients = response.data.ingredients;
-            // this.displayRecipeIndex = !this.displayRecipeIndex;
-            // backButton.innerHTML = "Back";
         })
       }
     }
