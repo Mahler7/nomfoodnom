@@ -6,6 +6,7 @@ $(document).on('ready', function() {
       displayRecipeIndex: false,
       displayNewRecipe: false,
       displayRecipeShow: false,
+      displayRecipeEdit: false,
       recipe: {
         name: '',
         chef: '',
@@ -124,6 +125,11 @@ $(document).on('ready', function() {
             self.recipe.favorite = response.data.favorite;
             self.recipe.ingredients = response.data.ingredients;
         })
+      },
+      setupRecipeEdit: function(recipeId){
+        this.displayRecipeShow = false;
+        this.displayRecipeIndex = false;
+        this.displayRecipeEdit = true;
       }
     }
   })
