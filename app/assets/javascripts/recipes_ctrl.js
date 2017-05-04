@@ -8,6 +8,7 @@ $(document).on('ready', function() {
       displayRecipeShow: false,
       displayRecipeEdit: false,
       recipe: {
+        id: '',
         name: '',
         chef: '',
         cooktime: '',
@@ -95,12 +96,12 @@ $(document).on('ready', function() {
       newRecipe: function(){
         var self = this;
         self.$http.post('/api/v1/recipes.json', self.recipe).then(function(response){
-            console.log("response.data " + JSON.stringify(response.data));
+            // console.log("response.data " + JSON.stringify(response.data));
             self.recipes.push(JSON.stringify(response.data));
             // window.location.href = "/recipes/" + JSON.stringify(response.data.id)
             self.displayNewRecipe = false;
         }).catch(function(response){
-          that.errors = response.data.errors;
+          self.errors = response.data.errors;
         });
       },
       newIngredient: function(){
@@ -117,6 +118,7 @@ $(document).on('ready', function() {
         this.displayRecipeShow = !this.displayRecipeShow;
 
         self.$http.get('/api/v1/recipes/' + recipeId + '.json').then(function(response){ 
+            self.recipe.id = response.data.id
             self.recipe.name = response.data.name;
             self.recipe.chef = response.data.chef;
             self.recipe.cooktime = response.data.cooktime;
@@ -124,12 +126,21 @@ $(document).on('ready', function() {
             self.recipe.description = response.data.description;
             self.recipe.favorite = response.data.favorite;
             self.recipe.ingredients = response.data.ingredients;
+            // console.log("Response.data " + JSON.stringify(response.data))
         })
       },
-      setupRecipeEdit: function(recipeId){
+      setupRecipeEdit: function(){
         this.displayRecipeShow = false;
         this.displayRecipeIndex = false;
         this.displayRecipeEdit = true;
+      },
+      editRecipe: function(recipeId){
+        self = this;
+        self.$http.patch('/api/v1/recipes/' + recipeId + '.json', self.recipe).then(function(response){
+            // console.log("Response " + response);
+        }).catch(function(response){
+          self.errors = response.data.errors;
+        });
       }
     }
   })
