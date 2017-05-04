@@ -17,6 +17,7 @@
         <td><a href="#" @click="setupRecipeShow(recipe.id)">View Recipe</a></td>
       </tr>
     </table>
+    <button type="submit" class="btn btn-default" @click="displayRecipeIndex = false">Back</button>
   </div>
 
   <div id="new-recipe-form-container" v-if="displayNewRecipe">
@@ -83,6 +84,7 @@
         <ul v-for="ingredient in recipe.ingredients">
           <li>{{ ingredient.ingredient_name }}</li>
         </ul>
+        <button type="submit" class="btn btn-default" @click="displayRecipeShow = false">Hide Recipe</button>
       </div>
     </div>
   </div>

@@ -51,26 +51,22 @@ $(document).on('ready', function() {
     },
     methods: {
       setupRecipeIndex: function(){
+        this.displayRecipeShow = false;
         var self = this;
-        var backButton = document.getElementById("recipe-index-button");
-
         if (self.recipes.length === 0){
           self.$http.get('/api/v1/recipes.json').then(function(response){ 
             for (x in response.data){
               self.recipes.push(response.data[x]);
             }
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "Back";
           })
+          this.displayRecipeIndex = true
         } 
         else if (self.recipes.length > 0){
           if (!this.displayRecipeIndex){
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "Back";
+            this.displayRecipeIndex = true;
           }
           else {
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "View Cookbook";
+            this.displayRecipeIndex = true;
           }
         }
       },
@@ -137,7 +133,7 @@ $(document).on('ready', function() {
             // this.displayRecipeIndex = !this.displayRecipeIndex;
             // backButton.innerHTML = "Back";
         })
-      } 
-    },
+      }
+    }
   })
 })
