@@ -24,6 +24,11 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.find_by(id: params[:id])
   end
 
+  def update
+    @recipe = Recipe.find(params[:id])
+    @recipe.update(recipe_params)
+  end
+
   private
 
     def recipe_params
