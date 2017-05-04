@@ -51,39 +51,28 @@ $(document).on('ready', function() {
     },
     methods: {
       setupRecipeIndex: function(){
+        this.displayRecipeShow = false;
         var self = this;
-        var backButton = document.getElementById("recipe-index-button");
-
         if (self.recipes.length === 0){
           self.$http.get('/api/v1/recipes.json').then(function(response){ 
             for (x in response.data){
               self.recipes.push(response.data[x]);
             }
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "Back";
           })
+          this.displayRecipeIndex = true
         } 
         else if (self.recipes.length > 0){
           if (!this.displayRecipeIndex){
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "Back";
+            this.displayRecipeIndex = true;
           }
           else {
-            this.displayRecipeIndex = !this.displayRecipeIndex;
-            backButton.innerHTML = "View Cookbook";
+            this.displayRecipeIndex = true;
           }
         }
       },
       toggleNewRecipe: function(){
-        this.displayNewRecipe = !this.displayNewRecipe;
-        var backButton = document.getElementById("new-recipe-button");
-        if(this.displayNewRecipe){
-          backButton.innerHTML = "Back"; 
-        }
-        else {
-          backButton.innerHTML = "Add New Recipe";
-          this.resetNewRecipe();
-        }
+        this.displayNewRecipe = true;
+        this.resetNewRecipe();
       },
       resetNewRecipe: function(){
         this.recipe.name = '';
@@ -134,10 +123,8 @@ $(document).on('ready', function() {
             self.recipe.description = response.data.description;
             self.recipe.favorite = response.data.favorite;
             self.recipe.ingredients = response.data.ingredients;
-            // this.displayRecipeIndex = !this.displayRecipeIndex;
-            // backButton.innerHTML = "Back";
         })
-      } 
-    },
+      }
+    }
   })
 })
