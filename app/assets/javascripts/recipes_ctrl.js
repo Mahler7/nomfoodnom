@@ -53,7 +53,9 @@ $(document).on('ready', function() {
     },
     methods: {
       setupRecipeIndex: function(){
+        this.displayNewRecipe = false;
         this.displayRecipeShow = false;
+        this.displayRecipeIndex = true;
         var self = this;
         if (self.recipes.length === 0){
           self.$http.get('/api/v1/recipes.json').then(function(response){ 
@@ -61,16 +63,8 @@ $(document).on('ready', function() {
               self.recipes.push(response.data[x]);
             }
           })
-          this.displayRecipeIndex = true
         } 
-        else if (self.recipes.length > 0){
-          if (!this.displayRecipeIndex){
-            this.displayRecipeIndex = true;
-          }
-          else {
-            this.displayRecipeIndex = true;
-          }
-        }
+        
       },
       toggleNewRecipe: function(){
         this.displayNewRecipe = true;
@@ -111,7 +105,6 @@ $(document).on('ready', function() {
         this.recipe.ingredients.push({name:''});
       },
       removeIngredient: function(index){
-        console.log("index " + index);
         this.recipe.ingredients.splice(index, 1);
       },
       setupRecipeShow: function(recipeId){
