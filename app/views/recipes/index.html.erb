@@ -86,8 +86,9 @@
         <ul v-for="ingredient in recipe.ingredients">
           <li>{{ ingredient.ingredient_name }}</li>
         </ul>
-        <button class="btn btn-default" @click="displayRecipeShow = false">Hide Recipe</button>
-        <button class="btn btn-default" @click="setupRecipeEdit(recipe.id)">Edit Recipe</button>
+        <button class="btn btn-default" @click="displayRecipeShow = false">Back</button>
+        <button class="btn btn-default" @click="setupRecipeEdit(recipe.id)">Edit</button>
+        <button class="btn btn-default" @click="destroyRecipe(recipe.id)">Delete</button>
       </div>
     </div>
   </div>

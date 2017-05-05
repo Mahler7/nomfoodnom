@@ -74,6 +74,8 @@ $(document).on('ready', function() {
       },
       toggleNewRecipe: function(){
         this.displayNewRecipe = true;
+        this.displayRecipeIndex = false;
+        this.displayRecipeShow = false;
         this.resetNewRecipe();
       },
       resetNewRecipe: function(){
@@ -100,6 +102,7 @@ $(document).on('ready', function() {
             self.recipes.push(JSON.stringify(response.data));
             // window.location.href = "/recipes/" + JSON.stringify(response.data.id)
             self.displayNewRecipe = false;
+            self.displayRecipeShow = true;
         }).catch(function(response){
           self.errors = response.data.errors;
         });
@@ -141,6 +144,23 @@ $(document).on('ready', function() {
         }).catch(function(response){
           self.errors = response.data.errors;
         });
+        this.displayRecipeEdit = false;
+        this.displayRecipeShow = true;
+      },
+      destroyRecipe: function(recipeId){
+        self = this;
+        self.$http.delete('/api/v1/recipes/' + recipeId + '.json', self.recipe).then(function(response){
+            for (var i = 0; i < self.recipes.length; i++){
+              // console.log("self.recipes[i] = " + self.recipes[i]);
+              if (self.recipes[i].id === recipeId){
+                // console.log("self.recipes[i].id = " + self.recipes[i].id);
+                self.recipes.splice(i,1);
+                break;
+              }
+            }
+        })
+        this.displayRecipeShow = false;
+        this.displayRecipeIndex = true;
       }
     }
   })
