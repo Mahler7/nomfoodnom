@@ -102,6 +102,7 @@ $(document).on('ready', function() {
             self.recipes.push(JSON.stringify(response.data));
             // window.location.href = "/recipes/" + JSON.stringify(response.data.id)
             self.displayNewRecipe = false;
+            self.displayRecipeShow = true;
         }).catch(function(response){
           self.errors = response.data.errors;
         });
