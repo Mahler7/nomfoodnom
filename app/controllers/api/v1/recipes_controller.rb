@@ -1,10 +1,13 @@
 class Api::V1::RecipesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create, :update, :destroy]
+
   def index
-    @recipes = Recipe.all
+    @recipes = current_user.recipes
   end
 
   def create
     @recipe = Recipe.new(recipe_params)
+    @recipe.user_id = current_user.id
     
     ingredients = params[:ingredients] 
     ingredients.each do |ingredient|
@@ -14,7 +17,7 @@ class Api::V1::RecipesController < ApplicationController
     end
 
     if @recipe.save 
-      render :show
+      render nothing: true
     else
       render json: { errors: @recipe.errors.full_messages }, status: 422
     end
@@ -26,7 +29,15 @@ class Api::V1::RecipesController < ApplicationController
 
   def update
     @recipe = Recipe.find(params[:id])
+    @recipe.user_id = current_user.id
+    p '--------------'
+    p @recipe
+    p '--------------'
     @recipe.update(recipe_params)
+    p '--------------'
+    p @recipe
+    p '--------------'
+    render nothing: true
   end
 
   def destroy
@@ -39,6 +50,7 @@ class Api::V1::RecipesController < ApplicationController
 
     def recipe_params
       params.require(:recipe).permit(
+        :id,
         :name,
         :chef,
         :cooktime,

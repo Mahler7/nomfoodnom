@@ -4,7 +4,7 @@
   <button class="btn btn-default" id="new-recipe-button" @click="toggleNewRecipe">Add New Recipe</button>
 
   <div id="recipe-index-container" v-if="displayRecipeIndex">
-    <h1>Recipe Index</h1>
+    <h1><%= current_user.user_name %>'s Recipes</h1>
     <table class="table table-bordered table-hover">
       <tr>
         <th>Name</th>
@@ -55,13 +55,13 @@
         <input type="checkbox" v-model="recipe.favorite">
       </div>
 
+      <input type="hidden" placeholder='<%= current_user.id %>' value='<%= current_user.id %>' v-model="recipe.user_id">    
+
       <button class="btn btn-default" type="button" @click="newIngredient">Add Ingredient</button>
       <div class="form-group" v-for="(ingredient, index) in recipe.ingredients">
         <label class="form-label">Ingredient</label>
         <input type="text" v-model="ingredient.name">
         <a @click="removeIngredient(index)">Remove Ingredient</a>
-        <p>Ingredient: {{ ingredient }}</p>
-        <p>Index: {{ index }}</p>
       </div>
 
       <div id="recipe-index-submit-button-container">
@@ -128,6 +128,8 @@
         <label class="form-label">Favorite</label>
         <input type="checkbox" v-model="recipe.favorite">
       </div>
+
+      <input placeholder='<%= current_user.id %>' value='<%= current_user.id %>' v-model="recipe.user_id">
 
       <button class="btn btn-default" type="button" @click="newIngredient">Add Ingredient</button>
       <div class="form-group" v-for="(ingredient, index) in recipe.ingredients">

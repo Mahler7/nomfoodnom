@@ -17,7 +17,8 @@ $(document).on('ready', function() {
         favorite: false,
         ingredients: [
           {name: ''},
-        ]
+        ],
+        user_id: ''
       },
       recipes: [],
       errors: {},
